@@ -6,6 +6,8 @@ This is a portal (application) that calls 4 functions to display the current wea
 
 It is important to note that currently functions must reside in the IBM Container Registry while applications and jobs can reside outside the container registry.
 
+All functions and applications will be created using the buuldpacks and not a Dockerfile, though it is possible for languages that are not supported for applications and jobs.
+
 I have other repositories that also showcase Code Engine doing other tasks.
 
 ---
@@ -18,6 +20,7 @@ I have other repositories that also showcase Code Engine doing other tasks.
 ibmcloud plugin install code-engine
 ibmcloud plugin install container-registry
 ```
+4. to Utilize the football (soccer) league information, a free account must be setup on [RapidAPI](https://rapidapi.com/hub).  The API key will be used later.
 ---
 ## Creating the necessary resources
 1. Logon to the IBM Cloud
@@ -50,4 +53,21 @@ ibmcloud ce project create --name Portal
 ```
 ibmcloud ce project select --name Portal
 ```
-3. Add a GitHub 
+3. Deploy the functions (2 are Python, 2 are NodeJS)
+```
+ibmcloud ce fn create --name quote    --build-source https://github.com/bpaskin/Portale-con-Code-Engine --build-context-dir functions/quote    --runtime nodejs-18 -e URL=https://api.quotable.io
+ibmcloud ce fn create --name tvguide  --build-source https://github.com/bpaskin/Portale-con-Code-Engine --build-context-dir functions/tvguide  --runtime nodejs-18 -e URL=https://services.tivulaguida.it
+ibmcloud ce fn create --name weather  --build-source https://github.com/bpaskin/Portale-con-Code-Engine --build-context-dir functions/weather  --runtime python    -e URL=https://api.open-meteo.com/v1   
+ibmcloud ce fn create --name football --build-source https://github.com/bpaskin/Portale-con-Code-Engine --build-context-dir functions/football --runtime python    -e URL=https://v3.football.api-sports.io
+```
+4. Get a list of the URLs
+```
+ibmcloud ce fn list
+```
+5. Test each of the the functions using cURL from the command line
+```
+curl -vvv -H "Content-Type: application/json" -d '{"category":"famous-quotes"}' https://quote.<from listing>.codeengine.appdomain.cloud 
+curl -vvv -H "Content-Type: application/json" https://tvguide.1g3gcv5qwvkl.us-south.codeengine.appdomain.cloud
+curl -vvv -H "Content-Type: application/json" -d '{"latitude":"41.8919","longitude":"12.5113"}' https://weather.<from listing>.codeengine.appdomain.cloud 
+curl -vvv -H "Content-Type: application/json" -d '{"apiKey": "<your API Key>", "leagueId": "135"}' https://football.<from listing>.codeengine.appdomain.cloud 
+```
