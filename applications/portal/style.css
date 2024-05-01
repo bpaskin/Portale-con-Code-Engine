@@ -1,0 +1,39 @@
+html, body { height: 100%; margin: 0; padding: 0 }
+
+div { position: fixed; width: 50%; height: 50%; overflow-x: scroll; }
+
+#uno { top: 20%;   left: 5%;   background: white; background-image: url("images/colosseo.jpg"); background-repeat: no-repeat; background-size: cover;}
+#due { top: 20%;   left: 55%; background: white; }
+#tre { top: 70%; left: 5%;   background: white;  }
+#quattro { top: 70%; left: 55%; background: white; }
+
+@font-face {
+    font-family: 'Rocher';
+    src: url(https://assets.codepen.io/9632/RocherColorGX.woff2);
+}
+
+#banner {
+    font-family: 'Rocher';
+    text-align: center;
+    font-size: 50px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: top;
+    font-palette: --Purples
+}
+
+@font-palette-values --Purples {
+    font-family: Rocher;
+    base-palette: 6;
+}
+
+h1 {
+    margin: 0;
+    text-align: center;
+}
+
+#error {
+    color: red;
+}
