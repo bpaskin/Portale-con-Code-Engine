@@ -24,6 +24,7 @@ async function main(args) {
     };
 
     var quoteCategory = args.category;
+    console.log(quoteCategory);
 
     try {    
         // call the quote URL and using the category and get the response
@@ -35,6 +36,14 @@ async function main(args) {
                 },
            }
         ).then((resp) => resp.json());
+
+        if (response[0] == undefined) {
+            return {
+                statusCode: response.statusCode,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify( { error: "no matching items" } ),
+              };
+        }
 
         if (response.statusCode != undefined && response.statusCode != 200) {
             return {
