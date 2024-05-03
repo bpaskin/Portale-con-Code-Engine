@@ -67,7 +67,26 @@ ibmcloud ce fn list
 5. Test each of the the functions using cURL from the command line
 ```
 curl -vvv -H "Content-Type: application/json" -d '{"category":"famous-quotes"}' https://quote.<from listing>.codeengine.appdomain.cloud 
-curl -vvv -H "Content-Type: application/json" https://tvguide.1g3gcv5qwvkl.us-south.codeengine.appdomain.cloud
+curl -vvv -H "Content-Type: application/json" https://tvguide.<from listing>.codeengine.appdomain.cloud
 curl -vvv -H "Content-Type: application/json" -d '{"latitude":"41.8919","longitude":"12.5113"}' https://weather.<from listing>.codeengine.appdomain.cloud 
 curl -vvv -H "Content-Type: application/json" -d '{"apiKey": "<your API Key>", "leagueId": "135"}' https://football.<from listing>.codeengine.appdomain.cloud 
+```
+6. Deploy the application
+```
+ibmcloud ce app create --name portal    --build-source https://github.com/bpaskin/Portale-con-Code-Engine --build-context-dir applications/portal --build-strategy buildpacks -e category=famous-quotes -e latitude=41.8919 -e longitude=12.5113 -e leagueId=135 -e apiKey=<API key from RapidAPI> 
+```
+7. Using your browser test the application
+```
+ https://portal.<from listing>.codeengine.appdomain.cloud
+```
+---
+## Other Configs
+If the image for the portal application is going to be placed outside and not in the internal registry, then a secret needs to be setup with the userid and password
+```
+ibmcloud ce secret create --format registry --name myRegistry --server <server name> --username <userid> --password <password>
+```
+
+A Image Build can be used to be run to build a new image of the application
+```
+ibmcloud ce build create --name portalbuild --build-source https://github.com/bpaskin/Portale-con-Code-Engine --context-dir applications/portal --strategy buildpacks --image <remote repo>/portal:latest --registry-secret myRegistry
 ```
