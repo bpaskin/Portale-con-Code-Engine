@@ -28,7 +28,7 @@
     <webApplication location="portal-1.0.war" contextRoot="/" autoStart="true" name="PortalePaskino"/>
 
     <!-- must mount the secret 
-      --mount-secret /config/variables=apikey
+      mount-secret /config/variables=apikey
     -->
 
 </server>
