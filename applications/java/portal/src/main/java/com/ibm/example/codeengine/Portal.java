@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import jakarta.ws.rs.WebApplicationException;
 
 import java.io.IOException;
 
@@ -59,7 +58,6 @@ public class Portal extends HttpServlet {
         HttpSession session = request.getSession(true);
 
         StringBuffer url = request.getRequestURL();
-        url = new StringBuffer("https://portaljava.1g3gcv5qwvkl.us-south.codeengine.appdomain.cloud");
         String footballUrl = url.toString().replace("portaljava", "football");
         String quotelUrl = url.toString().replace("portaljava", "quote");
         String tvguidelUrl = url.toString().replace("portaljava", "tvguide");
