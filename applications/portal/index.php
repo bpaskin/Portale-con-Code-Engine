@@ -41,7 +41,7 @@ $weatherlUrl = "https://" . str_replace("portal", "weather", $url ?? "http://mis
         <link type="text/css" rel="stylesheet" href="style.css" />
     </head>
     <body>
-         <h1 id="banner" class="purples">Paskino Portal</h1>
+         <h1 id="banner" class="purples">Portale Paskino</h1>
         <div id="uno">
             <?php
                 // get environment variables
