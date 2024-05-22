@@ -80,6 +80,23 @@ ibmcloud ce app create --name portal    --build-source https://github.com/bpaski
  https://portal.<from listing>.codeengine.appdomain.cloud
 ```
 ---
+## Java application running on Liberty
+There is also an example for running the application portion on WebSphere Liberty.  This showcases the use of another language, a container, mounting a secret, and Liberty itself.  The application uses the same function calls as above.  
+
+1. Update the `apikey` [file](https://github.com/bpaskin/Portale-con-Code-Engine/blob/main/applications/java/portal/apikey) placing the API Key from Rapid API key on the the first line.
+2. Create a secret from the `apikey` file
+```
+ibmcloud ce secret create --name apikey --from-file apikey 
+```
+3. Create the application from the Dockerfile provided.  Notice that the `--mount-secret` will mount the secret in `/config/variables` which will be picked up by Liberty.
+```
+ibmcloud ce application create --name portaljava  --build-strategy dockerfile --build-source https://github.com/bpaskin/Portale-con-Code-Engine --build-context-dir applications/java/portal --mount-secret /config/variables=apikey 
+```
+4. Using your browser test the application
+```
+ https://portaljava.<from listing>.codeengine.appdomain.cloud
+```
+---
 ## Other Configs
 If the image for the portal application is going to be placed outside and not in the internal registry, then a secret needs to be setup with the userid and password
 ```
@@ -90,3 +107,5 @@ A Image Build can be used to be run to build a new image of the application
 ```
 ibmcloud ce build create --name portalbuild --build-source https://github.com/bpaskin/Portale-con-Code-Engine --context-dir applications/portal --strategy buildpacks --image <remote repo>/portal:latest --registry-secret myRegistry
 ```
+
+𐕣 Funeral Winter 𐕣
